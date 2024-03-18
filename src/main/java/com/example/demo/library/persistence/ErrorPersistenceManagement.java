@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-@ConditionalOnProperty(name = "app.datasource.custom.enable", havingValue = "DATABASE", matchIfMissing = false)
+@ConditionalOnProperty(name = "app.datasource.custom.enable", havingValue = "true", matchIfMissing = false)
 public class ErrorPersistenceManagement {
 
     private final JdbcTemplate jdbcTemplate;

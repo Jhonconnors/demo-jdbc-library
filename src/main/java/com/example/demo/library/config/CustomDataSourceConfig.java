@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-@ConditionalOnProperty(name = "app.datasource.custom.enable", havingValue = "DATABASE", matchIfMissing = false)
+@ConditionalOnProperty(name = "app.datasource.custom.enable", havingValue = "true", matchIfMissing = false)
 public class CustomDataSourceConfig {
 
     @Bean
