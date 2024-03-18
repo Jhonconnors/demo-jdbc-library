@@ -1,7 +1,6 @@
 package com.example.demo.library.config;
 
 
-import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -22,9 +21,6 @@ public class CustomDataSourceConfig {
     @Bean
     @ConfigurationProperties(prefix = "app.datasource.custom") // Prefijo para las propiedades de HikariCP
     public DataSource dataSource(){
-        if (enable.equals("DATABASE")){
-            return new HikariDataSource();
-        }
         return DataSourceBuilder.create().build();
 
     }
