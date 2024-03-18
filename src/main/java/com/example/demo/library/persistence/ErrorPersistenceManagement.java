@@ -5,12 +5,15 @@ import com.example.demo.library.model.EntityError;
 import jakarta.annotation.PostConstruct;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
 @Component
+@ConditionalOnProperty(name = "app.datasource.custom.enable", havingValue = "DATABASE",
+        matchIfMissing = false)
 public class ErrorPersistenceManagement {
 
     private JdbcTemplate jdbcTemplate;
