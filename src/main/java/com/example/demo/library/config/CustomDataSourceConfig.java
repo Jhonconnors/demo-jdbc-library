@@ -14,17 +14,17 @@ import javax.sql.DataSource;
 @Configuration
 //@ConditionalOnProperty(name = "app.datasource.custom.enable", havingValue = "DATABASE", matchIfMissing = false)
 public class CustomDataSourceConfig {
-
-    @Value("${app.datasource.custom.enable}")
-    private String enable;
-
-    @Bean
-    @ConfigurationProperties(prefix = "app.datasource.custom") // Prefijo para las propiedades de HikariCP
-    public DataSource dataSource(){
-        if (enable.equals("DATABASE")){
-            return new BasicDataSource();
-        }
-        return DataSourceBuilder.create().build();
-    }
+//
+//    @Value("${app.datasource.custom.enable}")
+//    private String enable;
+//
+//    @Bean
+//    @ConfigurationProperties(prefix = "app.datasource.custom") // Prefijo para las propiedades de HikariCP
+//    public DataSource dataSource(){
+//        if (enable.equals("DATABASE")){
+//            return new BasicDataSource();
+//        }
+//        return DataSourceBuilder.create().build();
+//    }
 
 }
