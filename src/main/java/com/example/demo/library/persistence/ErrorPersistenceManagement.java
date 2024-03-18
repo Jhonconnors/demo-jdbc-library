@@ -7,7 +7,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import javax.sql.DataSource;
 
@@ -32,8 +31,40 @@ public class ErrorPersistenceManagement {
         jdbcTemplate.update(sql, error.getName(), error.getErrorType(), error.getDate() );
     }
 
-    @ConfigurationProperties(prefix = "app.datasource.custom") // Prefijo para las propiedades de HikariCP
+    @Value("${app.custom.datasource.url:#{null}}")
+    private String url;
+
+    @Value("${app.custom.datasource.username:#{null}}")
+    private String username;
+
+    @Value("${app.custom.datasource.password:#{null}}")
+    private String password;
+
+    @Value("${app.custom.datasource.driver:#{null}}")
+    private String driver;
+
+    @Value("${app.custom.datasource.maxTotal:15}")
+    private int maxTotal;
+
+    @Value("${app.custom.datasource.maxIdle:5}")
+    private int maxIdle;
+
+    @Value("${app.custom.datasource.maxWaitMillis:3000}")
+    private long maxWaitMillis;
+
     public DataSource dataSource(){
-        return new BasicDataSource();
+        BasicDataSource dataSource = new BasicDataSource();
+        if (username !=null || url != null ||
+                password != null || driver != null){
+            dataSource.setUrl(this.url);
+            dataSource.setUsername(this.username);
+            dataSource.setPassword(this.password);
+            dataSource.setDriverClassName(driver);
+            dataSource.setMaxTotal(this.maxTotal);
+            dataSource.setMaxIdle(this.maxIdle);
+            dataSource.setMaxWaitMillis(this.maxWaitMillis);
+        }
+
+        return dataSource;
     }
 }
