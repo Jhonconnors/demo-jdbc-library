@@ -30,7 +30,7 @@ public class ErrorPersistenceManagement {
 
     }
 
-    @ConfigurationProperties(prefix = "app.datasource.custom") // Prefijo para las propiedades de HikariCP
+    //@ConfigurationProperties(prefix = "app.datasource.custom") // Prefijo para las propiedades de HikariCP
     public DataSource dataSource(){
         if (enable.equals("DATABASE")){
             return new BasicDataSource();
