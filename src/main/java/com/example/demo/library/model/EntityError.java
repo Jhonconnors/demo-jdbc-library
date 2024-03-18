@@ -9,7 +9,7 @@ public class EntityError {
 
     private String name;
 
-    private String ErrorType;
+    private String errorType;
 
     private String date;
 }

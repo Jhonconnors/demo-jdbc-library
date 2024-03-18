@@ -49,6 +49,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	implementation 'org.springframework:spring-jdbc'
+	implementation 'com.zaxxer:HikariCP'
 
 }
 
