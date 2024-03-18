@@ -21,7 +21,6 @@ public class ErrorPersistenceManagement {
     @Value("${app.datasource.custom.enable:TOPIC}")
     private String enable;
 
-    @Autowired
     public ErrorPersistenceManagement(){
         if (enable.equals("DATABASE")){
             this.jdbcTemplate = new JdbcTemplate(dataSource());
