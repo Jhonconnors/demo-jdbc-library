@@ -1,9 +1,9 @@
 package com.example.demo.library.persistence;
 
 import com.example.demo.library.model.EntityError;
+import com.zaxxer.hikari.HikariDataSource;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -53,11 +53,11 @@ public class ErrorPersistenceManagement {
 
     public DataSource dataSource(){
         if (username !=null && url != null && password != null && driver != null){
-            DataSource dataSource = DataSourceBuilder.create()
-                    .url(url)
-                    .username(username)
-                    .password(password)
-                    .driverClassName(driver).build();
+            HikariDataSource dataSource = new HikariDataSource();
+            dataSource.setJdbcUrl(url);
+            dataSource.setUsername(username);
+            dataSource.setPassword(password);
+            dataSource.setDriverClassName(driver);
             return dataSource;
         } else {
             throw new RuntimeException("One o more Properties Connection is missing when enable=DATABASE");
@@ -65,6 +65,21 @@ public class ErrorPersistenceManagement {
 
 
     }
+
+//    public DataSource dataSource(){
+//        if (username !=null && url != null && password != null && driver != null){
+//            DataSource dataSource = DataSourceBuilder.create()
+//                    .url(url)
+//                    .username(username)
+//                    .password(password)
+//                    .driverClassName(driver).build();
+//            return dataSource;
+//        } else {
+//            throw new RuntimeException("One o more Properties Connection is missing when enable=DATABASE");
+//        }
+//
+//
+//    }
 
 //    public DataSource dataSource(){
 //        if (username !=null && url != null && password != null && driver != null){
