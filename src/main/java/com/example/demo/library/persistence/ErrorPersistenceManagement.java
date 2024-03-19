@@ -2,6 +2,7 @@ package com.example.demo.library.persistence;
 
 import com.example.demo.library.model.EntityError;
 import jakarta.annotation.PostConstruct;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -53,12 +54,11 @@ public class ErrorPersistenceManagement {
 
     public DataSource dataSource(){
         if (username !=null && url != null && password != null && driver != null){
-            DataSource dataSource = DataSourceBuilder.create()
-                    .username(username)
-                    .url(url)
-                    .password(password)
-                    .driverClassName(driver)
-                    .build();
+            BasicDataSource dataSource = new BasicDataSource();
+            dataSource.setUrl(url);
+            dataSource.setUsername(username);
+            dataSource.setPassword(password);
+            dataSource.setDriverClassName(driver);
             return dataSource;
         } else {
             throw new RuntimeException("One o more Properties Connection is missing when enable=DATABASE");
