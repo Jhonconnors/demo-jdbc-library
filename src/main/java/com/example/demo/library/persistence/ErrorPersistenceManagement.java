@@ -2,15 +2,14 @@ package com.example.demo.library.persistence;
 
 import com.example.demo.library.model.EntityError;
 import jakarta.annotation.PostConstruct;
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
-@Component
+@Configuration
 public class ErrorPersistenceManagement {
 
     private JdbcTemplate jdbcTemplate;
@@ -54,11 +53,11 @@ public class ErrorPersistenceManagement {
 
     public DataSource dataSource(){
         if (username !=null && url != null && password != null && driver != null){
-            BasicDataSource dataSource = new BasicDataSource();
-            dataSource.setUrl(url);
-            dataSource.setUsername(username);
-            dataSource.setPassword(password);
-            dataSource.setDriverClassName(driver);
+            DataSource dataSource = DataSourceBuilder.create()
+                    .url(url)
+                    .username(username)
+                    .password(password)
+                    .driverClassName(driver).build();
             return dataSource;
         } else {
             throw new RuntimeException("One o more Properties Connection is missing when enable=DATABASE");
@@ -66,4 +65,19 @@ public class ErrorPersistenceManagement {
 
 
     }
+
+//    public DataSource dataSource(){
+//        if (username !=null && url != null && password != null && driver != null){
+//            BasicDataSource dataSource = new BasicDataSource();
+//            dataSource.setUrl(url);
+//            dataSource.setUsername(username);
+//            dataSource.setPassword(password);
+//            dataSource.setDriverClassName(driver);
+//            return dataSource;
+//        } else {
+//            throw new RuntimeException("One o more Properties Connection is missing when enable=DATABASE");
+//        }
+//
+//
+//    }
 }
