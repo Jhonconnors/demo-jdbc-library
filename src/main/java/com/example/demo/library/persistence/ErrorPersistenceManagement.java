@@ -4,12 +4,12 @@ import com.example.demo.library.model.EntityError;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
-@Configuration
+@Component
 public class ErrorPersistenceManagement {
 
     private JdbcTemplate jdbcTemplate;
@@ -53,12 +53,13 @@ public class ErrorPersistenceManagement {
 
     public DataSource dataSource(){
         if (username !=null && url != null && password != null && driver != null){
-            return DataSourceBuilder.create()
+            DataSource dataSource = DataSourceBuilder.create()
                     .username(username)
                     .url(url)
                     .password(password)
                     .driverClassName(driver)
                     .build();
+            return dataSource;
         } else {
             throw new RuntimeException("One o more Properties Connection is missing when enable=DATABASE");
         }
