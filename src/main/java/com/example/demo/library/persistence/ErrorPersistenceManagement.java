@@ -4,17 +4,17 @@ import com.example.demo.library.model.EntityError;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
-@Component
+@Configuration
 public class ErrorPersistenceManagement {
 
     private JdbcTemplate jdbcTemplate;
 
-    @Value("${app.datasource.custom.enable:TOPIC}")
+    @Value("${app.custom.datasource.enable:TOPIC}")
     private String enable;
 
     @Value("${app.custom.datasource.url:#{null}}")
@@ -26,7 +26,7 @@ public class ErrorPersistenceManagement {
     @Value("${app.custom.datasource.password:#{null}}")
     private String password;
 
-    @Value("${app.custom.datasource.driver:#{null}}")
+    @Value("${app.custom.datasource.driver-class-name:#{null}}")
     private String driver;
 
     @Value("${app.custom.datasource.maxTotal:15}")
