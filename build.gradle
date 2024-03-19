@@ -4,15 +4,19 @@ plugins {
 	id 'maven-publish'
 	id 'org.springframework.boot' version '3.2.3'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'com.github.johnrengelman.shadow' version '7.1.0'
 }
 
 bootJar {
 	enabled = false
 }
 
-jar {
+shadowJar {
 	enabled = true
 }
+//jar {
+//	enabled = true
+//}
 
 java {
 	withSourcesJar()
@@ -20,7 +24,7 @@ java {
 }
 
 group = 'com.example'
-version = '1.2.4'
+version = '1.2.5'
 java {	sourceCompatibility = JavaVersion.VERSION_17
 }
 
@@ -47,7 +51,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	implementation 'org.springframework:spring-jdbc'
-	implementation("org.apache.commons:commons-dbcp2:2.9.0")
+//	implementation("org.apache.commons:commons-dbcp2:2.9.0")
 
 }
 

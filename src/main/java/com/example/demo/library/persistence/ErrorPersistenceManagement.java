@@ -2,15 +2,14 @@ package com.example.demo.library.persistence;
 
 import com.example.demo.library.model.EntityError;
 import jakarta.annotation.PostConstruct;
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
-@Component
+@Configuration
 public class ErrorPersistenceManagement {
 
     private JdbcTemplate jdbcTemplate;
@@ -45,8 +44,7 @@ public class ErrorPersistenceManagement {
                 password != null || driver != null)){
             this.jdbcTemplate = new JdbcTemplate(dataSource());
         } else {
-            DataSource dataSourceBuilder = DataSourceBuilder.create().build();
-            this.jdbcTemplate = new JdbcTemplate(dataSourceBuilder);
+            this.jdbcTemplate = null;
         }
     }
     public void insertErrorToDatabase(String table, EntityError error){
@@ -55,14 +53,12 @@ public class ErrorPersistenceManagement {
     }
 
     public DataSource dataSource(){
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setUrl(this.url);
-        dataSource.setUsername(this.username);
-        dataSource.setPassword(this.password);
-        dataSource.setDriverClassName(driver);
-        dataSource.setMaxTotal(this.maxTotal);
-        dataSource.setMaxIdle(this.maxIdle);
-        dataSource.setMaxWaitMillis(this.maxWaitMillis);
+        DataSource dataSource = DataSourceBuilder.create()
+                .username(username)
+                .url(url)
+                .password(password)
+                .driverClassName(driver)
+                .build();
         return dataSource;
     }
 }
