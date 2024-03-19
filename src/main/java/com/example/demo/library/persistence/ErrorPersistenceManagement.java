@@ -4,6 +4,7 @@ import com.example.demo.library.model.EntityError;
 import jakarta.annotation.PostConstruct;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -44,7 +45,8 @@ public class ErrorPersistenceManagement {
                 password != null || driver != null)){
             this.jdbcTemplate = new JdbcTemplate(dataSource());
         } else {
-            this.jdbcTemplate = null;
+            DataSource dataSourceBuilder = DataSourceBuilder.create().build();
+            this.jdbcTemplate = new JdbcTemplate(dataSourceBuilder);
         }
     }
     public void insertErrorToDatabase(String table, EntityError error){
