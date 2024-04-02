@@ -1,18 +1,17 @@
 package com.example.demo.library.persistence;
 
-import com.example.demo.library.model.EntityError;
-import com.zaxxer.hikari.HikariDataSource;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-import javax.sql.DataSource;
+
 
 @Configuration
 public class ErrorPersistenceManagement {
 
-    private JdbcTemplate jdbcTemplate;
 
     @Value("${app.custom.datasource.enable:TOPIC}")
     private String enable;
@@ -38,28 +37,21 @@ public class ErrorPersistenceManagement {
     @Value("${app.custom.datasource.maxWaitMillis:3000}")
     private long maxWaitMillis;
 
-    @PostConstruct
-    public void init(){
-        if (enable.equals("DATABASE")){
-            this.jdbcTemplate = new JdbcTemplate(dataSource());
-        } else {
-            this.jdbcTemplate = null;
-        }
-    }
-    public void insertErrorToDatabase(String table, EntityError error){
-        String sql = "INSERT INTO "+ table+"(name, errorType, date) VALUES(?, ?, ?)";
-        jdbcTemplate.update(sql, error.getName(), error.getErrorType(), error.getDate() );
+    @Bean
+    @ConditionalOnProperty(name = "app.custom.datasource.enable", havingValue = "DATABASE", matchIfMissing = false)
+    public JdbcTemplate jdbcTemplate(){
+        return new JdbcTemplate(dataSource());
     }
 
-    public DataSource dataSource(){
+    @Bean
+    @ConditionalOnProperty(name = "app.custom.datasource.enable", havingValue = "DATABASE", matchIfMissing = false)
+    public DriverManagerDataSource dataSource(){
         if (username !=null && url != null && password != null && driver != null){
-            HikariDataSource dataSource = new HikariDataSource();
-            dataSource.setJdbcUrl(url);
+            DriverManagerDataSource dataSource = new DriverManagerDataSource();
+            dataSource.setUrl(url);
             dataSource.setUsername(username);
             dataSource.setPassword(password);
             dataSource.setDriverClassName(driver);
-            dataSource.setMinimumIdle(2);
-            dataSource.setConnectionTimeout(30000);
             return dataSource;
         } else {
             throw new RuntimeException("One o more Properties Connection is missing when enable=DATABASE");
