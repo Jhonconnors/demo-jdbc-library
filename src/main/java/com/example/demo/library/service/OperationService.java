@@ -10,20 +10,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class OperationService {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    public void insertToDatabase(String table, EntityError error) {
-        if ("DATABASE".equals(System.getProperty("app.custom.datasource.enable"))) {
-            if (jdbcTemplate != null) {
-                String sql = "INSERT INTO " + table + "(name, errorType, date) VALUES(?, ?, ?)";
-                jdbcTemplate.update(sql, error.getName(), error.getErrorType(), error.getDate());
-            } else {
-                System.out.println("No se ha podido configurar Base de datos");
-            }
-        } else {
-            System.out.println("Base de datos desactivada. No se realizaron inserciones.");
-        }
-    }
+//    @Autowired
+//    private JdbcTemplate jdbcTemplate;
+//
+//    public void insertToDatabase(String table, EntityError error) {
+//        if ("DATABASE".equals(System.getProperty("app.custom.datasource.enable"))) {
+//            if (jdbcTemplate != null) {
+//                String sql = "INSERT INTO " + table + "(name, errorType, date) VALUES(?, ?, ?)";
+//                jdbcTemplate.update(sql, error.getName(), error.getErrorType(), error.getDate());
+//            } else {
+//                System.out.println("No se ha podido configurar Base de datos");
+//            }
+//        } else {
+//            System.out.println("Base de datos desactivada. No se realizaron inserciones.");
+//        }
+//    }
 }
 

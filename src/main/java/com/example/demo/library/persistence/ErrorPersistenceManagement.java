@@ -1,5 +1,6 @@
 package com.example.demo.library.persistence;
 
+import com.example.demo.library.model.EntityError;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -36,10 +37,16 @@ public class ErrorPersistenceManagement {
     @Value("${app.custom.datasource.maxWaitMillis:3000}")
     private long maxWaitMillis;
 
+    private JdbcTemplate jdbcTemplate;
 
     @PostConstruct
     public JdbcTemplate jdbcTemplate(){
-        return new JdbcTemplate(dataSource());
+        if ("DATABASE".equals(enable)){
+            jdbcTemplate = new JdbcTemplate(dataSource());
+        } else{
+            return jdbcTemplate = null;
+        }
+        return jdbcTemplate;
     }
 
 
@@ -56,6 +63,19 @@ public class ErrorPersistenceManagement {
         }
 
 
+    }
+
+    public void insertToDatabase(String table, EntityError error) {
+        if ("DATABASE".equals(System.getProperty("app.custom.datasource.enable"))) {
+            if (jdbcTemplate != null) {
+                String sql = "INSERT INTO " + table + "(name, errorType, date) VALUES(?, ?, ?)";
+                jdbcTemplate.update(sql, error.getName(), error.getErrorType(), error.getDate());
+            } else {
+                System.out.println("No se ha podido configurar Base de datos");
+            }
+        } else {
+            System.out.println("Base de datos desactivada. No se realizaron inserciones.");
+        }
     }
 
 //    public DataSource dataSource(){
