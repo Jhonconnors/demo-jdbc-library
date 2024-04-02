@@ -24,7 +24,7 @@ java {
 }
 
 group = 'com.example'
-version = '1.4.2'
+version = '1.4.3'
 java {	sourceCompatibility = JavaVersion.VERSION_17
 }
 
@@ -49,8 +49,6 @@ dependencies {
 	implementation 'org.springframework:spring-jdbc'
 
 //	implementation 'com.zaxxer:HikariCP'
-// Declarar HikariCP como una dependencia runtimeOnly (opcional)
-	implementation 'com.zaxxer:HikariCP'
 
 }
 

@@ -1,11 +1,11 @@
 package com.example.demo.library.persistence;
 
 import com.example.demo.library.model.EntityError;
-import com.zaxxer.hikari.HikariDataSource;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
@@ -52,15 +52,12 @@ public class ErrorPersistenceManagement {
 
     public DataSource dataSource(){
         if (username !=null && url != null && password != null && driver != null){
-            HikariDataSource hikari = new HikariDataSource();
-            hikari.setJdbcUrl(url);
-            hikari.setUsername(username);
-            hikari.setPassword(password);
-            hikari.setDriverClassName(driver);
-            hikari.setMaximumPoolSize(maxTotal);
-            hikari.setMinimumIdle(maxIdle);
-            hikari.setConnectionTimeout(maxWaitMillis);
-            return hikari;
+            DriverManagerDataSource dataSource = new DriverManagerDataSource();
+            dataSource.setUrl(url);
+            dataSource.setUsername(username);
+            dataSource.setPassword(password);
+            dataSource.setDriverClassName(driver);
+            return dataSource;
         } else {
             throw new RuntimeException("One o more Properties Connection is missing when enable=DATABASE");
         }
