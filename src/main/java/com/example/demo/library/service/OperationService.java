@@ -8,10 +8,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-@ConditionalOnProperty(name = "app.custom.datasource.enable", havingValue = "DATABASE")
 public class OperationService {
 
-    @Autowired(required = false)
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     public void insertToDatabase(String table, EntityError error) {

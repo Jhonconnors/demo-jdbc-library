@@ -1,9 +1,8 @@
 package com.example.demo.library.persistence;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -37,14 +36,13 @@ public class ErrorPersistenceManagement {
     @Value("${app.custom.datasource.maxWaitMillis:3000}")
     private long maxWaitMillis;
 
-    @Bean
-    @ConditionalOnProperty(name = "app.custom.datasource.enable", havingValue = "DATABASE")
+
+    @PostConstruct
     public JdbcTemplate jdbcTemplate(){
         return new JdbcTemplate(dataSource());
     }
 
-    @Bean
-    @ConditionalOnProperty(name = "app.custom.datasource.enable", havingValue = "DATABASE")
+
     public DataSource dataSource(){
         if (username !=null && url != null && password != null && driver != null){
             DataSource dataSource = DataSourceBuilder.create()
