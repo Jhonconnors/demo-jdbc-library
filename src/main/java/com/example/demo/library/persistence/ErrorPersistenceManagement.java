@@ -2,10 +2,12 @@ package com.example.demo.library.persistence;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class ErrorPersistenceManagement {
@@ -43,13 +45,13 @@ public class ErrorPersistenceManagement {
 
     @Bean
     @ConditionalOnProperty(name = "app.custom.datasource.enable", havingValue = "DATABASE")
-    public DriverManagerDataSource dataSource(){
+    public DataSource dataSource(){
         if (username !=null && url != null && password != null && driver != null){
-            DriverManagerDataSource dataSource = new DriverManagerDataSource();
-            dataSource.setUrl(url);
-            dataSource.setUsername(username);
-            dataSource.setPassword(password);
-            dataSource.setDriverClassName(driver);
+            DataSource dataSource = DataSourceBuilder.create()
+                    .url(url)
+                    .username(username)
+                    .password(password)
+                    .driverClassName(driver).build();
             return dataSource;
         } else {
             throw new RuntimeException("One o more Properties Connection is missing when enable=DATABASE");
