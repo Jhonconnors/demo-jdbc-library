@@ -7,8 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-
-
 @Configuration
 public class ErrorPersistenceManagement {
 
@@ -38,13 +36,13 @@ public class ErrorPersistenceManagement {
     private long maxWaitMillis;
 
     @Bean
-    @ConditionalOnProperty(name = "app.custom.datasource.enable", havingValue = "DATABASE", matchIfMissing = false)
+    @ConditionalOnProperty(name = "app.custom.datasource.enable", havingValue = "DATABASE")
     public JdbcTemplate jdbcTemplate(){
         return new JdbcTemplate(dataSource());
     }
 
     @Bean
-    @ConditionalOnProperty(name = "app.custom.datasource.enable", havingValue = "DATABASE", matchIfMissing = false)
+    @ConditionalOnProperty(name = "app.custom.datasource.enable", havingValue = "DATABASE")
     public DriverManagerDataSource dataSource(){
         if (username !=null && url != null && password != null && driver != null){
             DriverManagerDataSource dataSource = new DriverManagerDataSource();
