@@ -58,6 +58,8 @@ public class ErrorPersistenceManagement {
             dataSource.setUsername(username);
             dataSource.setPassword(password);
             dataSource.setDriverClassName(driver);
+            dataSource.setMinimumIdle(2);
+            dataSource.setConnectionTimeout(30000);
             return dataSource;
         } else {
             throw new RuntimeException("One o more Properties Connection is missing when enable=DATABASE");
