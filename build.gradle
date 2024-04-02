@@ -24,13 +24,11 @@ java {
 }
 
 group = 'com.example'
-version = '1.4.1'
+version = '1.4.2'
 java {	sourceCompatibility = JavaVersion.VERSION_17
 }
 
-configurations {
-	compile.exclude group: 'com.zaxxer', module: 'HikariCP' // Excluir HikariCP como dependencia transitiva
-}
+
 
 repositories {
 	mavenCentral()
@@ -52,7 +50,7 @@ dependencies {
 
 //	implementation 'com.zaxxer:HikariCP'
 // Declarar HikariCP como una dependencia runtimeOnly (opcional)
-	compileOnly 'com.zaxxer:HikariCP'
+	implementation 'com.zaxxer:HikariCP'
 
 }
 
