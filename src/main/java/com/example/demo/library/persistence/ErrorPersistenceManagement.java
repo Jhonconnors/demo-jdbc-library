@@ -2,10 +2,12 @@ package com.example.demo.library.persistence;
 
 import com.example.demo.library.model.EntityError;
 import jakarta.annotation.PostConstruct;
-import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import javax.sql.DataSource;
 
 
 @Configuration
@@ -39,27 +41,23 @@ public class ErrorPersistenceManagement {
     private JdbcTemplate jdbcTemplate;
 
     @PostConstruct
-    public JdbcTemplate jdbcTemplate(){
+    public void jdbcTemplate(){
         if ("DATABASE".equals(enable)){
             jdbcTemplate = new JdbcTemplate(dataSource());
         } else{
-            return jdbcTemplate = null;
+            jdbcTemplate = null;
         }
-        return jdbcTemplate;
     }
 
 
     public DataSource dataSource(){
         if (username !=null && url != null && password != null && driver != null){
-            org.apache.tomcat.jdbc.pool.DataSource dataSource = new org.apache.tomcat.jdbc.pool.DataSource();
-            dataSource.setUrl(url);
-            dataSource.setUsername(username);
-            dataSource.setPassword(password);
-            dataSource.setDriverClassName(driver);
-            dataSource.setMaxActive(maxTotal);
-            dataSource.setMaxIdle(maxIdle);
-            dataSource.setMaxWait(maxWaitMillis);
-            return dataSource;
+            return DataSourceBuilder.create()
+                    .username(username)
+                    .password(password)
+                    .driverClassName(driver)
+                    .url(url)
+                    .build();
         } else {
             throw new RuntimeException("One o more Properties Connection is missing when enable=DATABASE");
         }
