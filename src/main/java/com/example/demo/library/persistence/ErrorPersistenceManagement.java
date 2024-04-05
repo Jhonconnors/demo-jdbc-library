@@ -57,6 +57,7 @@ public class ErrorPersistenceManagement {
                     .password(password)
                     .driverClassName(driver)
                     .url(url)
+                    .type(DataSource.class)
                     .build();
         } else {
             throw new RuntimeException("One o more Properties Connection is missing when enable=DATABASE");
